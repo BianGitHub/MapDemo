@@ -202,7 +202,7 @@
 //    NSLog(@"%f, %f", self.map.region.span.latitudeDelta,self.map.region.span.longitudeDelta);
 }
 
-#pragma mark - 自定义大头针
+#pragma mark - 大头针
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     //  创建大头针
@@ -213,8 +213,33 @@
     CLLocationCoordinate2D coor = [self.map convertPoint:[touch locationInView:self.map] toCoordinateFromView:self.map];
     //  设置属性
     anno.coordinate = coor;
+    anno.title = @"北京";
+    anno.subtitle = @"北京XXXXXXXXXXXX";
     [self.map addAnnotation:anno];
     
+    /** 添加大头针视图时也存在内存优化问题, iOS已经针对大头针视图进行了重用优化!!!*/
+}
+
+#pragma Mark - 当设置地图的大头针视图时调用   -> 解决大头针视图的重用
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    //过滤定位大头针
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        //定位大头针显示默认样式
+        return nil;
+    }
+    
+    static NSString *identifier = @"anno";
+    MKAnnotationView *annoV = [self.map dequeueReusableAnnotationViewWithIdentifier:identifier];
+    if (annoV == nil) {
+        annoV = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:identifier];
+        //设置数据
+        annoV.image = [UIImage imageNamed:@"大头针"];
+        //设置标注
+        annoV.canShowCallout = YES;
+    }
+
+    return annoV;
 }
 
 @end
