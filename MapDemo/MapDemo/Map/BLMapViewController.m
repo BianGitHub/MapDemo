@@ -27,6 +27,8 @@
     [self addMapType];
     //添加返回按钮    返回定位点
     [self backBtn];
+    //航拍
+    [self cameraType];
 }
 
 - (void)setupUI
@@ -127,6 +129,32 @@
     //  跨度 = 当前地图的跨度
     MKCoordinateSpan span = self.map.region.span;
     [self.map setRegion:MKCoordinateRegionMake(center, span) animated:YES];
+}
+
+#pragma mark - 航拍
+- (void)cameraType
+{
+    UIButton *btn = [[UIButton alloc]init];
+    [btn setTitle:@"航拍" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:12];
+    btn.backgroundColor = [UIColor colorWithRed:21/255.0 green:126/255.0 blue:251/255.0 alpha:1];
+    btn.layer.cornerRadius = 10;
+    btn.layer.borderWidth = 1;
+    [btn sizeToFit];
+    [self.view addSubview:btn];
+    
+    [btn addTarget:self action:@selector(clickCameraBtn) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).offset(-50);
+        make.left.equalTo(self.view.mas_left).offset(10);
+    }];
+}
+/** 航怕点击事件*/
+- (void)clickCameraBtn
+{
+    self.map.camera = [MKMapCamera cameraLookingAtCenterCoordinate:CLLocationCoordinate2DMake(self.map.userLocation.location.coordinate.latitude, self.map.userLocation.location.coordinate.longitude) fromDistance:30 pitch:75 heading:0];
 }
 
 @end
