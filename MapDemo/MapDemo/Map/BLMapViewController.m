@@ -36,8 +36,9 @@
         [self.mgr requestWhenInUseAuthorization];
     }
     self.map.userTrackingMode = MKUserTrackingModeFollow;
-    
     self.map.delegate = self;
+    //显示标尺
+    self.map.showsScale = YES;
 }
 
 #pragma mark - 定位大头针 反地理编码
