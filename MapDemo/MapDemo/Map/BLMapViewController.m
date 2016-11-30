@@ -100,15 +100,7 @@
 #pragma mark - 返回定位点
 - (void)backBtn
 {
-    UIButton *btn = [[UIButton alloc]init];
-    [btn setTitle:@"返回" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:12];
-    btn.backgroundColor = [UIColor colorWithRed:21/255.0 green:126/255.0 blue:251/255.0 alpha:1];
-    btn.layer.cornerRadius = 10;
-    btn.layer.borderWidth = 1;
-    [btn sizeToFit];
-    [self.view addSubview:btn];
+    UIButton *btn = [self buttonWithTitle:@" 返回 "];
     
     [btn addTarget:self action:@selector(backUserLocation) forControlEvents:UIControlEventTouchUpInside];
     
@@ -134,15 +126,7 @@
 #pragma mark - 航拍
 - (void)cameraType
 {
-    UIButton *btn = [[UIButton alloc]init];
-    [btn setTitle:@"航拍" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:12];
-    btn.backgroundColor = [UIColor colorWithRed:21/255.0 green:126/255.0 blue:251/255.0 alpha:1];
-    btn.layer.cornerRadius = 10;
-    btn.layer.borderWidth = 1;
-    [btn sizeToFit];
-    [self.view addSubview:btn];
+    UIButton *btn = [self buttonWithTitle:@" 航拍 "];
     
     [btn addTarget:self action:@selector(clickCameraBtn) forControlEvents:UIControlEventTouchUpInside];
     
@@ -155,6 +139,21 @@
 - (void)clickCameraBtn
 {
     self.map.camera = [MKMapCamera cameraLookingAtCenterCoordinate:CLLocationCoordinate2DMake(self.map.userLocation.location.coordinate.latitude, self.map.userLocation.location.coordinate.longitude) fromDistance:30 pitch:75 heading:0];
+}
+
+#pragma mark - 封装btn方法
+- (UIButton *)buttonWithTitle: (NSString *)title
+{
+    UIButton *btn = [[UIButton alloc]init];
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:12];
+    btn.backgroundColor = [UIColor colorWithRed:21/255.0 green:126/255.0 blue:251/255.0 alpha:1];
+    btn.layer.cornerRadius = 10;
+    btn.layer.borderWidth = 1;
+    [btn sizeToFit];
+    [self.view addSubview:btn];
+    return btn;
 }
 
 @end
