@@ -29,6 +29,8 @@
     [self backBtn];
     //航拍
     [self cameraType];
+    //放大缩小
+    [self mapScale];
 }
 
 - (void)setupUI
@@ -154,6 +156,49 @@
     [btn sizeToFit];
     [self.view addSubview:btn];
     return btn;
+}
+
+#pragma mark - 地图放大和缩小
+- (void)mapScale
+{
+    UIButton *btnBig = [self buttonWithTitle:@"➕"];
+    
+    [btnBig addTarget:self action:@selector(clickMapScaleBtn:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btnBig mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).offset(-50);
+        make.right.equalTo(self.view.mas_right).offset(-10);
+    }];
+    
+    UIButton *btnSmall = [self buttonWithTitle:@"➖"];
+    
+    [btnSmall addTarget:self action:@selector(clickMapScaleBtn:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btnSmall mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).offset(-20);
+        make.right.equalTo(self.view.mas_right).offset(-10);
+    }];
+}
+/** ➕,➖点击事件*/
+- (void)clickMapScaleBtn: (UIButton *)btn
+{
+    //  中心点
+    CLLocationCoordinate2D center = self.map.region.center;
+    //  跨度
+    MKCoordinateSpan span;
+
+    if ([btn.titleLabel.text isEqualToString:@"➕"]) {
+        span = MKCoordinateSpanMake(self.map.region.span.latitudeDelta / 2, self.map.region.span.longitudeDelta / 2);
+    } else {
+        span = MKCoordinateSpanMake(self.map.region.span.latitudeDelta * 2, self.map.region.span.longitudeDelta * 2);
+    }
+    //当跨度到最大时 会崩溃
+    if (span.latitudeDelta > 100) {
+        return;
+    }
+    
+    [self.map setRegion:MKCoordinateRegionMake(center, span) animated:YES];
+    NSLog(@"%f, %f", self.map.region.span.latitudeDelta,self.map.region.span.longitudeDelta);
 }
 
 @end
