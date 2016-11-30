@@ -7,6 +7,7 @@
 //
 
 #import "BLViewController.h"
+#import "Masonry.h"
 
 @interface BLViewController ()
 
@@ -17,6 +18,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor magentaColor];
+    
+    [self setupUI];
+}
+
+- (void)setupUI
+{
+    UIButton *btn = [[UIButton alloc]init];
+    [btn setTitle:@"显示地图" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [btn sizeToFit];
+    [self.view addSubview:btn];
+    
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+    }];
 }
 
 @end
