@@ -213,8 +213,20 @@
     CLLocationCoordinate2D coor = [self.map convertPoint:[touch locationInView:self.map] toCoordinateFromView:self.map];
     //  设置属性
     anno.coordinate = coor;
-    anno.title = @"北京";
-    anno.subtitle = @"北京XXXXXXXXXXXX";
+    
+    CLGeocoder *gecoder = [CLGeocoder new];
+    
+    CLLocation *location = [[CLLocation alloc]initWithLatitude:coor.latitude longitude:coor.longitude];
+    [gecoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        
+        //判断地标对象
+        if (placemarks.count == 0 || error) {
+            return ;
+        }
+        
+        anno.title = placemarks.lastObject.locality;
+        anno.subtitle = placemarks.lastObject.name;
+    }];
     [self.map addAnnotation:anno];
     
     /** 添加大头针视图时也存在内存优化问题, iOS已经针对大头针视图进行了重用优化!!!*/
@@ -237,6 +249,12 @@
         annoV.image = [UIImage imageNamed:@"大头针"];
         //设置标注
         annoV.canShowCallout = YES;
+        //设置yes大头针可以拖动
+        annoV.draggable = YES;
+        //大头针显示信息的自定义控件
+        annoV.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeInfoLight];
+//        annoV.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeInfoDark];
+//        annoV.detailCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeContactAdd];
     }
 
     return annoV;
