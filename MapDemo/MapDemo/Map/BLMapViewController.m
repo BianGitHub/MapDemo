@@ -7,6 +7,7 @@
 //
 
 #import "BLMapViewController.h"
+#import "Masonry.h"
 #import <MapKit/MapKit.h>
 @interface BLMapViewController ()<MKMapViewDelegate>
 @property(nonatomic, weak) MKMapView *map;
@@ -24,6 +25,8 @@
     [self setupUI];
     //添加地图类型
     [self addMapType];
+    //添加返回按钮    返回定位点
+    [self backBtn];
 }
 
 - (void)setupUI
@@ -90,6 +93,40 @@
         default:
             break;
     }
+}
+
+#pragma mark - 返回定位点
+- (void)backBtn
+{
+    UIButton *btn = [[UIButton alloc]init];
+    [btn setTitle:@"返回" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:12];
+    btn.backgroundColor = [UIColor colorWithRed:21/255.0 green:126/255.0 blue:251/255.0 alpha:1];
+    btn.layer.cornerRadius = 10;
+    btn.layer.borderWidth = 1;
+    [btn sizeToFit];
+    [self.view addSubview:btn];
+    
+    [btn addTarget:self action:@selector(backUserLocation) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).offset(-20);
+        make.left.equalTo(self.view.mas_left).offset(10);
+    }];
+}
+/** 返回按钮点击事件*/
+- (void)backUserLocation
+{
+    //  方式一:  修改用户定位跟踪模式 并实现动画
+//    [self.map setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+    
+    //  方式二:修改地图显示的范围 -> 定位的范围
+    //  中心点 = 定位点
+    CLLocationCoordinate2D center = self.map.userLocation.location.coordinate;
+    //  跨度 = 当前地图的跨度
+    MKCoordinateSpan span = self.map.region.span;
+    [self.map setRegion:MKCoordinateRegionMake(center, span) animated:YES];
 }
 
 @end
