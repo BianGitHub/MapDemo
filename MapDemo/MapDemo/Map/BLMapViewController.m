@@ -250,7 +250,7 @@
         //设置标注
         annoV.canShowCallout = YES;
         //设置yes大头针可以拖动
-        annoV.draggable = YES;
+//        annoV.draggable = YES;
         //大头针显示信息的自定义控件
         annoV.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeInfoLight];
 //        annoV.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeInfoDark];
@@ -258,6 +258,26 @@
     }
 
     return annoV;
+}
+
+#pragma mark - 大头针动画 -> 从上掉下来
+/** 已经添加大头针视图后调用(还未显示) , 该方法专门用于设置大头针自定义动画的*/
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray<MKAnnotationView *> *)views
+{
+    for (MKAnnotationView *annoV in views) {
+        if ([annoV.annotation isKindOfClass:[MKUserLocation class]]) {
+            return;
+        }
+        
+        //记录大头针frame
+        CGRect rect = annoV.frame;
+        //改变大头针frame
+        annoV.frame = CGRectMake(rect.origin.x, 0, rect.size.width, rect.size.height);
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            annoV.frame = rect;
+        }];
+    }
 }
 
 @end
