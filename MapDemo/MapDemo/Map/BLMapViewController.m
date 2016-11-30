@@ -22,6 +22,8 @@
     self.navigationItem.hidesBackButton = YES;
     
     [self setupUI];
+    //添加地图类型
+    [self addMapType];
 }
 
 - (void)setupUI
@@ -35,7 +37,7 @@
     if ([self.mgr respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [self.mgr requestWhenInUseAuthorization];
     }
-    self.map.userTrackingMode = MKUserTrackingModeFollow;
+    self.map.userTrackingMode = MKUserTrackingModeFollowWithHeading;
     self.map.delegate = self;
     //显示标尺
     self.map.showsScale = YES;
@@ -60,5 +62,34 @@
     }];
 }
 
+#pragma mark - 地图类型
+- (void)addMapType
+{
+    NSArray *arr = @[@"标准",@"卫星",@"混合"];
+    UISegmentedControl *seg = [[UISegmentedControl alloc]initWithItems:arr];
+    seg.frame = CGRectMake(18, 95, 180, 20);
+    seg.selectedSegmentIndex = 0;
+    [seg addTarget:self action:@selector(clickSeg:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview: seg];
+}
+
+#pragma mark - 地图类型点击事件
+- (void)clickSeg:(UISegmentedControl *)sender
+{
+    switch (sender.selectedSegmentIndex) {
+        case 0:
+            self.map.mapType = MKMapTypeStandard;
+            break;
+        case 1:
+            self.map.mapType = MKMapTypeSatellite;
+            break;
+        case 2:
+            self.map.mapType = MKMapTypeHybrid;
+            break;
+            
+        default:
+            break;
+    }
+}
 
 @end
