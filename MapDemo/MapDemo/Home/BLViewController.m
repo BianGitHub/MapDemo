@@ -8,6 +8,7 @@
 
 #import "BLViewController.h"
 #import "Masonry.h"
+#import "BLMapViewController.h"
 
 @interface BLViewController ()
 
@@ -22,6 +23,7 @@
     [self setupUI];
 }
 
+//首页
 - (void)setupUI
 {
     UIButton *btn = [[UIButton alloc]init];
@@ -30,9 +32,19 @@
     [btn sizeToFit];
     [self.view addSubview:btn];
     
+    [btn addTarget:self action:@selector(clickBtn) forControlEvents:UIControlEventTouchUpInside];
+    
     [btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
     }];
+}
+
+//点击事件
+- (void)clickBtn
+{
+    BLMapViewController *mvc = [BLMapViewController new];
+    
+    [self.navigationController pushViewController:mvc animated:YES];
 }
 
 @end
