@@ -9,6 +9,7 @@
 #import "BLMapViewController.h"
 #import "Masonry.h"
 #import <MapKit/MapKit.h>
+#import "BLAnnotation.h"
 @interface BLMapViewController ()<MKMapViewDelegate>
 @property(nonatomic, weak) MKMapView *map;
 @property(nonatomic, strong) CLLocationManager *mgr;
@@ -198,7 +199,22 @@
     }
     
     [self.map setRegion:MKCoordinateRegionMake(center, span) animated:YES];
-    NSLog(@"%f, %f", self.map.region.span.latitudeDelta,self.map.region.span.longitudeDelta);
+//    NSLog(@"%f, %f", self.map.region.span.latitudeDelta,self.map.region.span.longitudeDelta);
+}
+
+#pragma mark - 自定义大头针
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    //  创建大头针
+    BLAnnotation *anno = [BLAnnotation new];
+    //  获取点击点的坐标
+    UITouch *touch = touches.anyObject;
+    //  坐标转换    坐标 -> 经纬度
+    CLLocationCoordinate2D coor = [self.map convertPoint:[touch locationInView:self.map] toCoordinateFromView:self.map];
+    //  设置属性
+    anno.coordinate = coor;
+    [self.map addAnnotation:anno];
+    
 }
 
 @end

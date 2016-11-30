@@ -25,6 +25,7 @@
 		117AFAB71DEED4B800F2FDB3 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 117AFAAC1DEED4B800F2FDB3 /* ViewController+MASAdditions.m */; };
 		117AFABB1DEEDB0900F2FDB3 /* BLMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 117AFABA1DEEDB0900F2FDB3 /* BLMapViewController.m */; };
 		117AFABE1DEEE07100F2FDB3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 117AFABD1DEEE07100F2FDB3 /* MapKit.framework */; };
+		117AFAC11DEF572B00F2FDB3 /* BLAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 117AFAC01DEF572B00F2FDB3 /* BLAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,8 @@
 		117AFAB91DEEDB0900F2FDB3 /* BLMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLMapViewController.h; sourceTree = "<group>"; };
 		117AFABA1DEEDB0900F2FDB3 /* BLMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLMapViewController.m; sourceTree = "<group>"; };
 		117AFABD1DEEE07100F2FDB3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		117AFABF1DEF572B00F2FDB3 /* BLAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLAnnotation.h; sourceTree = "<group>"; };
+		117AFAC01DEF572B00F2FDB3 /* BLAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +179,8 @@
 			children = (
 				117AFAB91DEEDB0900F2FDB3 /* BLMapViewController.h */,
 				117AFABA1DEEDB0900F2FDB3 /* BLMapViewController.m */,
+				117AFABF1DEF572B00F2FDB3 /* BLAnnotation.h */,
+				117AFAC01DEF572B00F2FDB3 /* BLAnnotation.m */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -264,6 +269,7 @@
 				117AFAB31DEED4B800F2FDB3 /* MASViewConstraint.m in Sources */,
 				117AFAAE1DEED4B800F2FDB3 /* MASCompositeConstraint.m in Sources */,
 				117AFABB1DEEDB0900F2FDB3 /* BLMapViewController.m in Sources */,
+				117AFAC11DEF572B00F2FDB3 /* BLAnnotation.m in Sources */,
 				117AFAB41DEED4B800F2FDB3 /* NSArray+MASAdditions.m in Sources */,
 				117AFA901DEEC9BE00F2FDB3 /* BLViewController.m in Sources */,
 				117AFA7A1DEEC32C00F2FDB3 /* AppDelegate.m in Sources */,
