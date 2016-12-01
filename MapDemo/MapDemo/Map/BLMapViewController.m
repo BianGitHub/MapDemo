@@ -234,6 +234,10 @@
 /** 手势事件*/
 - (void)tapAction: (UITapGestureRecognizer *)recognizer
 {
+    //  当地图导航时不添加大头针
+    if (_polyLineArr.count != 0) {
+        return;
+    }
     if (_annoArr != nil) {
         [self.map removeAnnotations:_annoArr];
         [_annoArr removeAllObjects];
@@ -367,7 +371,10 @@
     //  设置终点    地理编码
     CLGeocoder *gecoder = [[CLGeocoder alloc]init];
     [gecoder geocodeAddressString:_tF.text completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        
+        //  添加判断    当_tF.text为空时崩溃
+        if (placemarks.count == 0 || error) {
+            return ;
+        }
         MKPlacemark *pm = [[MKPlacemark alloc]initWithPlacemark:placemarks.lastObject];
         //  给终点添加大头针
         CGPoint point = [self.map convertCoordinate:pm.coordinate toPointToView:self.map];
@@ -415,6 +422,5 @@
     [textField resignFirstResponder];
     return YES;
 }
-
 
 @end
