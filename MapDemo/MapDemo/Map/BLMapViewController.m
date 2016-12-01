@@ -40,6 +40,8 @@
     [self cameraType];
     //放大缩小
     [self mapScale];
+    //添加大头针
+    [self addTap];
     //导航
     [self addTextFAndBtn];
 }
@@ -217,32 +219,45 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [_tF resignFirstResponder];
-//    //  创建大头针
-//    BLAnnotation *anno = [BLAnnotation new];
-//    //  获取点击点的坐标
-//    UITouch *touch = touches.anyObject;
-//    //  坐标转换    坐标 -> 经纬度
-//    CLLocationCoordinate2D coor = [self.map convertPoint:[touch locationInView:self.map] toCoordinateFromView:self.map];
-//    //  设置属性
-//    anno.coordinate = coor;
-//    
-//    CLGeocoder *gecoder = [CLGeocoder new];
-//    
-//    CLLocation *location = [[CLLocation alloc]initWithLatitude:coor.latitude longitude:coor.longitude];
-//    [gecoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-//        
-//        //判断地标对象
-//        if (placemarks.count == 0 || error) {
-//            return ;
-//        }
-//        
-//        anno.title = placemarks.lastObject.locality;
-//        anno.subtitle = placemarks.lastObject.name;
-//    }];
-//    [self.map addAnnotation:anno];
-//    
-    /** 添加大头针视图时也存在内存优化问题, iOS已经针对大头针视图进行了重用优化!!!*/
 }
+
+#pragma mark - 添加点按手势添加大头针
+- (void)addTap
+{
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
+    [self.map addGestureRecognizer:tap];
+}
+
+/** 手势事件*/
+- (void)tapAction: (UITapGestureRecognizer *)recognizer
+{
+    //  创建大头针
+    BLAnnotation *anno = [BLAnnotation new];
+    //  获取点击点的坐标
+    //  坐标转换    坐标 -> 经纬度
+    CLLocationCoordinate2D coor = [self.map convertPoint:[recognizer locationInView:self.map] toCoordinateFromView:self.map];
+    //  设置属性
+    anno.coordinate = coor;
+    
+    CLGeocoder *gecoder = [CLGeocoder new];
+    
+    CLLocation *location = [[CLLocation alloc]initWithLatitude:coor.latitude longitude:coor.longitude];
+    [gecoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        
+        //判断地标对象
+        if (placemarks.count == 0 || error) {
+            return ;
+        }
+        
+        anno.title = placemarks.lastObject.locality;
+        anno.subtitle = placemarks.lastObject.name;
+    }];
+    [self.map addAnnotation:anno];
+    
+    /** 添加大头针视图时也存在内存优化问题, iOS已经针对大头针视图进行了重用优化!!!*/
+    
+}
+
 
 #pragma Mark - 当设置地图的大头针视图时调用   -> 解决大头针视图的重用
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
@@ -349,8 +364,8 @@
         [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse * _Nullable response, NSError * _Nullable error) {
             //  获取路线对象  记录路线信息
             MKRoute *route = response.routes.lastObject;
-            
             for (MKRouteStep *step in route.steps) {
+                
                 //  需要项目中获取的系统数据显示中文,则可以设置项目开发区域为China(info.plist)
                 NSLog(@"%@", step.instructions);
             }
@@ -373,11 +388,13 @@
     
     return renderer;
 }
+
 /** 结束编辑*/
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return YES;
 }
+
 
 @end
