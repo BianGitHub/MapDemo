@@ -10,12 +10,15 @@
 #import "Masonry.h"
 #import <MapKit/MapKit.h>
 #import "BLAnnotation.h"
-@interface BLMapViewController ()<MKMapViewDelegate>
+@interface BLMapViewController ()<MKMapViewDelegate, UITextFieldDelegate>
 @property(nonatomic, weak) MKMapView *map;
 @property(nonatomic, strong) CLLocationManager *mgr;
 @end
 
 @implementation BLMapViewController
+{
+    UITextField *_tF;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,6 +35,8 @@
     [self cameraType];
     //放大缩小
     [self mapScale];
+    //导航
+    [self addTextFAndBtn];
 }
 
 - (void)setupUI
@@ -49,6 +54,7 @@
     self.map.delegate = self;
     //显示标尺
     self.map.showsScale = YES;
+    
 }
 
 #pragma mark - 定位大头针 反地理编码
@@ -205,30 +211,31 @@
 #pragma mark - 大头针
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    //  创建大头针
-    BLAnnotation *anno = [BLAnnotation new];
-    //  获取点击点的坐标
-    UITouch *touch = touches.anyObject;
-    //  坐标转换    坐标 -> 经纬度
-    CLLocationCoordinate2D coor = [self.map convertPoint:[touch locationInView:self.map] toCoordinateFromView:self.map];
-    //  设置属性
-    anno.coordinate = coor;
-    
-    CLGeocoder *gecoder = [CLGeocoder new];
-    
-    CLLocation *location = [[CLLocation alloc]initWithLatitude:coor.latitude longitude:coor.longitude];
-    [gecoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        
-        //判断地标对象
-        if (placemarks.count == 0 || error) {
-            return ;
-        }
-        
-        anno.title = placemarks.lastObject.locality;
-        anno.subtitle = placemarks.lastObject.name;
-    }];
-    [self.map addAnnotation:anno];
-    
+    [_tF resignFirstResponder];
+//    //  创建大头针
+//    BLAnnotation *anno = [BLAnnotation new];
+//    //  获取点击点的坐标
+//    UITouch *touch = touches.anyObject;
+//    //  坐标转换    坐标 -> 经纬度
+//    CLLocationCoordinate2D coor = [self.map convertPoint:[touch locationInView:self.map] toCoordinateFromView:self.map];
+//    //  设置属性
+//    anno.coordinate = coor;
+//    
+//    CLGeocoder *gecoder = [CLGeocoder new];
+//    
+//    CLLocation *location = [[CLLocation alloc]initWithLatitude:coor.latitude longitude:coor.longitude];
+//    [gecoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+//        
+//        //判断地标对象
+//        if (placemarks.count == 0 || error) {
+//            return ;
+//        }
+//        
+//        anno.title = placemarks.lastObject.locality;
+//        anno.subtitle = placemarks.lastObject.name;
+//    }];
+//    [self.map addAnnotation:anno];
+//    
     /** 添加大头针视图时也存在内存优化问题, iOS已经针对大头针视图进行了重用优化!!!*/
 }
 
@@ -278,6 +285,47 @@
             annoV.frame = rect;
         }];
     }
+}
+
+#pragma mark - 自定义导航    -> 将起点$终点直接传递给服务器, 服务器返回数据
+/** 设置地址栏 和导航按钮*/
+- (void)addTextFAndBtn
+{
+    UITextField *tF = [[UITextField alloc]initWithFrame:CGRectMake(18, 120, 180, 20)];
+    //  设置边框
+    tF.borderStyle = UITextBorderStyleRoundedRect;
+    tF.backgroundColor = [UIColor whiteColor];
+    tF.placeholder = @"请输入目标地址:";
+    tF.font = [UIFont systemFontOfSize:12];
+    //  一次性删除文字
+    tF.clearButtonMode = UITextFieldViewModeAlways;
+    //  内容对齐方式
+    tF.textAlignment = NSTextAlignmentLeft;
+    //  return键变成什么键
+    tF.returnKeyType = UIReturnKeyDone;
+    tF.delegate = self;
+    [self.view addSubview:tF];
+    _tF = tF;
+    
+    UIButton *btn = [self buttonWithTitle:@"导航"];
+    [btn addTarget:self action:@selector(clickDirectionBtn) forControlEvents:UIControlEventTouchUpInside];
+    
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_tF.mas_right).offset(10);
+        make.centerY.equalTo(_tF.mas_centerY);
+    }];
+}
+
+/** 导航点击事件*/
+- (void)clickDirectionBtn
+{
+    
+}
+/** 结束编辑*/
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
