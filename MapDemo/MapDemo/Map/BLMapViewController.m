@@ -18,10 +18,15 @@
 @implementation BLMapViewController
 {
     UITextField *_tF;
+    //  定义一个保存路线的可变数组
+    NSMutableArray *_polyLineArr;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //  初始化
+    _polyLineArr = [[NSMutableArray alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
     //隐藏返回item
     self.navigationItem.hidesBackButton = YES;
@@ -319,6 +324,13 @@
 /** 导航点击事件*/
 - (void)clickDirectionBtn
 {
+    //  判断数组里是否有线
+    if (_polyLineArr != nil) {
+        [self.map removeOverlays:_polyLineArr];
+        [_polyLineArr removeAllObjects];
+    }
+    //点击导航时收起键盘
+    [_tF resignFirstResponder];
     //  1.创建导航请求对象
     MKDirectionsRequest *request = [[MKDirectionsRequest alloc]init];
     //  设置起点    ->把定位点转移成地图项目
@@ -342,10 +354,24 @@
                 //  需要项目中获取的系统数据显示中文,则可以设置项目开发区域为China(info.plist)
                 NSLog(@"%@", step.instructions);
             }
-            
+            //  地图画线
+            [self.map addOverlay:route.polyline];
+            [_polyLineArr addObject:route.polyline];
         }];
         
     }];
+}
+
+#pragma mark - 设置覆盖物样式时调用   画线
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
+{
+    //  设置折线的样式 设置MKOverlayRenderer的折线子类
+    MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
+    //  设置属性
+    renderer.strokeColor = [UIColor greenColor];
+    renderer.lineWidth = 3;
+    
+    return renderer;
 }
 /** 结束编辑*/
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
