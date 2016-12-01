@@ -20,6 +20,8 @@
     UITextField *_tF;
     //  定义一个保存路线的可变数组
     NSMutableArray *_polyLineArr;
+    //  定义一个添加大头针数组
+    NSMutableArray *_annoArr;
 }
 
 - (void)viewDidLoad {
@@ -27,6 +29,7 @@
     
     //  初始化
     _polyLineArr = [[NSMutableArray alloc]init];
+    _annoArr = [[NSMutableArray alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
     //隐藏返回item
     self.navigationItem.hidesBackButton = YES;
@@ -231,11 +234,22 @@
 /** 手势事件*/
 - (void)tapAction: (UITapGestureRecognizer *)recognizer
 {
+    if (_annoArr != nil) {
+        [self.map removeAnnotations:_annoArr];
+        [_annoArr removeAllObjects];
+    }
+    CGPoint point = [recognizer locationInView:self.map];
+    [self anno:point];
+    
+}
+/** 封装大头针*/
+- (void)anno: (CGPoint)point
+{
     //  创建大头针
     BLAnnotation *anno = [BLAnnotation new];
     //  获取点击点的坐标
     //  坐标转换    坐标 -> 经纬度
-    CLLocationCoordinate2D coor = [self.map convertPoint:[recognizer locationInView:self.map] toCoordinateFromView:self.map];
+    CLLocationCoordinate2D coor = [self.map convertPoint:point toCoordinateFromView:self.map];
     //  设置属性
     anno.coordinate = coor;
     
@@ -253,9 +267,9 @@
         anno.subtitle = placemarks.lastObject.name;
     }];
     [self.map addAnnotation:anno];
+    [_annoArr addObject:anno];
     
     /** 添加大头针视图时也存在内存优化问题, iOS已经针对大头针视图进行了重用优化!!!*/
-    
 }
 
 
@@ -355,8 +369,14 @@
     [gecoder geocodeAddressString:_tF.text completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         
         MKPlacemark *pm = [[MKPlacemark alloc]initWithPlacemark:placemarks.lastObject];
-        
-        request.destination = [[MKMapItem alloc]initWithPlacemark:pm];
+        //  给终点添加大头针
+        CGPoint point = [self.map convertCoordinate:pm.coordinate toPointToView:self.map];
+        if (_annoArr != nil) {
+            [self.map removeAnnotations:_annoArr];
+            [_annoArr removeAllObjects];
+        }
+        [self anno:point];
+        request.destination = [[MKMapItem alloc]initWithPlacemark:pm];        
         
         //  2.创建导航对象
         MKDirections *directions = [[MKDirections alloc]initWithRequest:request];
