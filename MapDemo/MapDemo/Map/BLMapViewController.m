@@ -319,7 +319,33 @@
 /** 导航点击事件*/
 - (void)clickDirectionBtn
 {
-    
+    //  1.创建导航请求对象
+    MKDirectionsRequest *request = [[MKDirectionsRequest alloc]init];
+    //  设置起点    ->把定位点转移成地图项目
+    request.source = [MKMapItem mapItemForCurrentLocation];
+    //  设置终点    地理编码
+    CLGeocoder *gecoder = [[CLGeocoder alloc]init];
+    [gecoder geocodeAddressString:_tF.text completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        
+        MKPlacemark *pm = [[MKPlacemark alloc]initWithPlacemark:placemarks.lastObject];
+        
+        request.destination = [[MKMapItem alloc]initWithPlacemark:pm];
+        
+        //  2.创建导航对象
+        MKDirections *directions = [[MKDirections alloc]initWithRequest:request];
+        //  计算路线
+        [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse * _Nullable response, NSError * _Nullable error) {
+            //  获取路线对象  记录路线信息
+            MKRoute *route = response.routes.lastObject;
+            
+            for (MKRouteStep *step in route.steps) {
+                //  需要项目中获取的系统数据显示中文,则可以设置项目开发区域为China(info.plist)
+                NSLog(@"%@", step.instructions);
+            }
+            
+        }];
+        
+    }];
 }
 /** 结束编辑*/
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
