@@ -76,16 +76,25 @@
      _useDarkText
      */
     /** 单独设置att的text会崩溃; 需要设置att里面的两个属性的text都为nil时, 才会消失并且也不会有点击事件了*/
+    /** 设置两个属性的alpha属性为0时, 也可以隐藏字体, 但是点击事件还在*/
     /** 设置下面两个属性的各种颜色时, 个人测试innerLabel属性的优先级可能高一些*/
     UILabel *inner = [att valueForKey:@"innerLabel"];
     //    [inner setTextColor:[UIColor redColor]];
     //    inner.backgroundColor = [UIColor greenColor];
+    //    inner.alpha = 0;
     [inner setText:nil];
     
     UILabel *stro = [att valueForKey:@"strokeLabel"];
     //    stro.textColor = [UIColor redColor];
     //    stro.backgroundColor = [UIColor blueColor];
+    //    stro.alpha = 0;
     [stro setText:nil];
+    
+    /** 删除右下角" 高德地图 "*/
+    /** 将视图的透明度改成0 或者 移除视图都可以*/
+    UIView *abv = [_map valueForKey:@"_attributionBadgeView"];
+//    abv.alpha = 0;
+    [abv removeFromSuperview];
 }
 
 #pragma mark - 定位大头针 反地理编码
