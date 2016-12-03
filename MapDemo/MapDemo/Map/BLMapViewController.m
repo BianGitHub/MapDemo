@@ -65,6 +65,27 @@
     //显示标尺
     self.map.showsScale = YES;
     
+    /** 删除地图左下角 "法律信息"*/
+    UILabel *att = [_map valueForKey:@"attributionLabel"];
+    att.backgroundColor = [UIColor redColor];
+    
+    /** MKAttributionLabel
+     _strokeLabel,
+     _innerLabel,
+     _mapType,
+     _useDarkText
+     */
+    /** 单独设置att的text会崩溃; 需要设置att里面的两个属性的text都为nil时, 才会消失并且也不会有点击事件了*/
+    /** 设置下面两个属性的各种颜色时, 个人测试innerLabel属性的优先级可能高一些*/
+    UILabel *inner = [att valueForKey:@"innerLabel"];
+    //    [inner setTextColor:[UIColor redColor]];
+    //    inner.backgroundColor = [UIColor greenColor];
+    [inner setText:nil];
+    
+    UILabel *stro = [att valueForKey:@"strokeLabel"];
+    //    stro.textColor = [UIColor redColor];
+    //    stro.backgroundColor = [UIColor blueColor];
+    [stro setText:nil];
 }
 
 #pragma mark - 定位大头针 反地理编码

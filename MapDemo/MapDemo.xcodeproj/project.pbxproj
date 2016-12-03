@@ -26,6 +26,7 @@
 		117AFABB1DEEDB0900F2FDB3 /* BLMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 117AFABA1DEEDB0900F2FDB3 /* BLMapViewController.m */; };
 		117AFABE1DEEE07100F2FDB3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 117AFABD1DEEE07100F2FDB3 /* MapKit.framework */; };
 		117AFAC11DEF572B00F2FDB3 /* BLAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 117AFAC01DEF572B00F2FDB3 /* BLAnnotation.m */; };
+		117AFAEA1DF3436800F2FDB3 /* NSObject+CZRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 117AFAE91DF3436800F2FDB3 /* NSObject+CZRuntime.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,8 @@
 		117AFABD1DEEE07100F2FDB3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		117AFABF1DEF572B00F2FDB3 /* BLAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLAnnotation.h; sourceTree = "<group>"; };
 		117AFAC01DEF572B00F2FDB3 /* BLAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLAnnotation.m; sourceTree = "<group>"; };
+		117AFAE81DF3436800F2FDB3 /* NSObject+CZRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+CZRuntime.h"; sourceTree = "<group>"; };
+		117AFAE91DF3436800F2FDB3 /* NSObject+CZRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+CZRuntime.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +139,8 @@
 		117AFA911DEED4A600F2FDB3 /* ThirdLab */ = {
 			isa = PBXGroup;
 			children = (
+				117AFAE81DF3436800F2FDB3 /* NSObject+CZRuntime.h */,
+				117AFAE91DF3436800F2FDB3 /* NSObject+CZRuntime.m */,
 				117AFA921DEED4B800F2FDB3 /* Masonry */,
 			);
 			path = ThirdLab;
@@ -268,6 +273,7 @@
 				117AFAB51DEED4B800F2FDB3 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				117AFAB31DEED4B800F2FDB3 /* MASViewConstraint.m in Sources */,
 				117AFAAE1DEED4B800F2FDB3 /* MASCompositeConstraint.m in Sources */,
+				117AFAEA1DF3436800F2FDB3 /* NSObject+CZRuntime.m in Sources */,
 				117AFABB1DEEDB0900F2FDB3 /* BLMapViewController.m in Sources */,
 				117AFAC11DEF572B00F2FDB3 /* BLAnnotation.m in Sources */,
 				117AFAB41DEED4B800F2FDB3 /* NSArray+MASAdditions.m in Sources */,
@@ -431,6 +437,7 @@
 				117AFA8B1DEEC32C00F2FDB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
