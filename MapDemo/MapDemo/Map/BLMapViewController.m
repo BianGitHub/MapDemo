@@ -33,7 +33,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     //隐藏返回item
     self.navigationItem.hidesBackButton = YES;
-    
+    self.navigationItem.title = @"地图";
     [self setupUI];
     //添加地图类型
     [self addMapType];
