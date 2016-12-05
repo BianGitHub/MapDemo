@@ -10,9 +10,16 @@
 #import "Masonry.h"
 #import <MapKit/MapKit.h>
 #import "BLAnnotation.h"
-@interface BLMapViewController ()<MKMapViewDelegate, UITextFieldDelegate>
+//带界面的语音识别控件
+#import "iflyMSC/IFlyRecognizerViewDelegate.h"
+#import "iflyMSC/IFlyRecognizerView.h"
+#import "iflyMSC/IFlyMSC.h"
+#import "ISRDataHelper.h"
+
+@interface BLMapViewController ()<MKMapViewDelegate, UITextFieldDelegate, IFlyRecognizerViewDelegate>
 @property(nonatomic, weak) MKMapView *map;
 @property(nonatomic, strong) CLLocationManager *mgr;
+@property (nonatomic, strong) NSString * result;
 @end
 
 @implementation BLMapViewController
@@ -22,6 +29,10 @@
     NSMutableArray *_polyLineArr;
     //  定义一个添加大头针数组
     NSMutableArray *_annoArr;
+    //记录导航按钮
+    UIButton *_dhBtn;
+    
+     IFlyRecognizerView *_iflyRecognizerView;
 }
 
 - (void)viewDidLoad {
@@ -47,8 +58,74 @@
     [self addTap];
     //导航
     [self addTextFAndBtn];
+    
+    NSString *initString = [[NSString alloc] initWithFormat:@"appid=%@",@"5844ecee"];
+    [IFlySpeechUtility createUtility:initString];
+    
+    //初始化语音识别控件
+    _iflyRecognizerView = [[IFlyRecognizerView alloc] initWithCenter:self.view.center];
+    _iflyRecognizerView.delegate = self;
+    [_iflyRecognizerView setParameter: @"iat" forKey: [IFlySpeechConstant IFLY_DOMAIN]];
+    //asr_audio_path保存录音文件名，如不再需要，设置value为nil表示取消，默认目录是documents
+    [_iflyRecognizerView setParameter:@"asrview.pcm " forKey:[IFlySpeechConstant ASR_AUDIO_PATH]];
+    
+    //添加语音按钮
+    [self IFlyBtn];
+    
 }
 
+#pragma mark - 语音按钮
+- (void)IFlyBtn
+{
+    UIButton *IFLYBtn = [self buttonWithTitle:@"语音导航"];
+    [IFLYBtn addTarget:self action:@selector(clickIFLYBtn) forControlEvents:UIControlEventTouchUpInside];
+    
+    [IFLYBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_dhBtn.mas_right).offset(5);
+        make.centerY.equalTo(_dhBtn.mas_centerY);
+    }];
+    
+}
+
+#pragma mark - 语音按钮点击事件
+- (void)clickIFLYBtn
+{
+    if (_tF.text != nil) {
+        _tF.text = nil;
+        [_map removeOverlays:_polyLineArr];
+        [_polyLineArr removeAllObjects];
+    }
+    //启动识别服务
+    [_iflyRecognizerView start];
+}
+
+/*识别结果返回代理
+ @param resultArray 识别结果
+ @ param isLast 表示是否最后一次结果
+ */
+- (void)onResult: (NSArray *)resultArray isLast:(BOOL) isLast
+{
+    //取消识别
+    [_iflyRecognizerView  cancel];
+    
+    NSMutableString *resultString = [[NSMutableString alloc] init];
+    NSDictionary *dic = resultArray[0];
+    for (NSString *key in dic) {
+        [resultString appendFormat:@"%@",key];
+    }
+    _result =[NSString stringWithFormat:@"%@%@", _tF.text,resultString];
+    NSString * resultFromJson =  [ISRDataHelper stringFromJson:resultString];
+    _tF.text = [NSString stringWithFormat:@"%@%@", _tF.text,resultFromJson];
+    
+    // 语音自动导航
+    [self clickDirectionBtn];
+}
+/*识别会话错误返回代理
+ @ param  error 错误码
+ */
+- (void)onError: (IFlySpeechError *) error{}
+
+#pragma mark - 添加地图
 - (void)setupUI
 {
     MKMapView *map = [[MKMapView alloc]initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 64)];
@@ -382,6 +459,7 @@
         make.left.equalTo(_tF.mas_right).offset(10);
         make.centerY.equalTo(_tF.mas_centerY);
     }];
+    _dhBtn = btn;
 }
 
 /** 导航点击事件*/

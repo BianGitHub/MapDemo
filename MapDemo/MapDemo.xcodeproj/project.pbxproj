@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		115474CE1DF53CF10083AD78 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 115474CD1DF53CF10083AD78 /* iflyMSC.framework */; };
+		115474D11DF5A5EE0083AD78 /* ISRDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 115474D01DF5A5EE0083AD78 /* ISRDataHelper.m */; };
 		117AFA771DEEC32C00F2FDB3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 117AFA761DEEC32C00F2FDB3 /* main.m */; };
 		117AFA7A1DEEC32C00F2FDB3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 117AFA791DEEC32C00F2FDB3 /* AppDelegate.m */; };
 		117AFA821DEEC32C00F2FDB3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 117AFA811DEEC32C00F2FDB3 /* Assets.xcassets */; };
@@ -43,6 +44,8 @@
 
 /* Begin PBXFileReference section */
 		115474CD1DF53CF10083AD78 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = ../lib/iflyMSC.framework; sourceTree = "<group>"; };
+		115474CF1DF5A5EE0083AD78 /* ISRDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISRDataHelper.h; sourceTree = "<group>"; };
+		115474D01DF5A5EE0083AD78 /* ISRDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISRDataHelper.m; sourceTree = "<group>"; };
 		117AFA721DEEC32C00F2FDB3 /* MapDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		117AFA761DEEC32C00F2FDB3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		117AFA781DEEC32C00F2FDB3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../AppDelegate.h; sourceTree = "<group>"; };
@@ -178,6 +181,8 @@
 			children = (
 				117AFAE81DF3436800F2FDB3 /* NSObject+CZRuntime.h */,
 				117AFAE91DF3436800F2FDB3 /* NSObject+CZRuntime.m */,
+				115474CF1DF5A5EE0083AD78 /* ISRDataHelper.h */,
+				115474D01DF5A5EE0083AD78 /* ISRDataHelper.m */,
 				117AFA921DEED4B800F2FDB3 /* Masonry */,
 			);
 			path = ThirdLab;
@@ -326,6 +331,7 @@
 				117AFAEA1DF3436800F2FDB3 /* NSObject+CZRuntime.m in Sources */,
 				117AFABB1DEEDB0900F2FDB3 /* BLMapViewController.m in Sources */,
 				117AFAC11DEF572B00F2FDB3 /* BLAnnotation.m in Sources */,
+				115474D11DF5A5EE0083AD78 /* ISRDataHelper.m in Sources */,
 				117AFAB41DEED4B800F2FDB3 /* NSArray+MASAdditions.m in Sources */,
 				117AFA901DEEC9BE00F2FDB3 /* BLViewController.m in Sources */,
 				117AFA7A1DEEC32C00F2FDB3 /* AppDelegate.m in Sources */,
