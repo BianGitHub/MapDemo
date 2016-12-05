@@ -95,6 +95,10 @@
         [_map removeOverlays:_polyLineArr];
         [_polyLineArr removeAllObjects];
     }
+    
+    //当键盘弹出来时
+    [_tF resignFirstResponder];
+    
     //启动识别服务
     [_iflyRecognizerView start];
 }
@@ -119,6 +123,8 @@
     
     // 语音自动导航
     [self clickDirectionBtn];
+    // 返回定位点
+    [self backUserLocation];
 }
 /*识别会话错误返回代理
  @ param  error 错误码
