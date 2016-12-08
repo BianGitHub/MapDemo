@@ -39,6 +39,7 @@
 		117AFB4D1DF5265800F2FDB3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 117AFB4C1DF5265800F2FDB3 /* AudioToolbox.framework */; };
 		117AFB4F1DF5266200F2FDB3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 117AFB4E1DF5266200F2FDB3 /* SystemConfiguration.framework */; };
 		117AFB511DF5266B00F2FDB3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 117AFB501DF5266B00F2FDB3 /* QuartzCore.framework */; };
+		11921CF11DF9654300FEF621 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 11921CF01DF9654300FEF621 /* README */; };
 		11E89DF01DF5320F003C4772 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11E89DEF1DF5320F003C4772 /* Contacts.framework */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +100,7 @@
 		117AFB4C1DF5265800F2FDB3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		117AFB4E1DF5266200F2FDB3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		117AFB501DF5266B00F2FDB3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		11921CF01DF9654300FEF621 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		11E89DEF1DF5320F003C4772 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -150,6 +152,7 @@
 				117AFA8D1DEEC99900F2FDB3 /* Home */,
 				117AFAB81DEEDAEA00F2FDB3 /* Map */,
 				117AFA751DEEC32C00F2FDB3 /* Supporting Files */,
+				11921CF01DF9654300FEF621 /* README */,
 			);
 			path = MapDemo;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11921CF11DF9654300FEF621 /* README in Resources */,
 				117AFA851DEEC32C00F2FDB3 /* LaunchScreen.storyboard in Resources */,
 				117AFA821DEEC32C00F2FDB3 /* Assets.xcassets in Resources */,
 				117AFAAD1DEED4B800F2FDB3 /* Info.plist in Resources */,
