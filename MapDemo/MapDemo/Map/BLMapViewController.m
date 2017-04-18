@@ -158,32 +158,15 @@
     UILabel *att = [_map valueForKey:@"attributionLabel"];
     
     /** 直接移除不显示文字, 但是有点击事件*/
-    //    [att removeFromSuperview];
+        [att removeFromSuperview];
     
+    // 地图中的成员变量修改了....已经不是label, 隐藏但暂时没有解决点击事件
     /** MKAttributionLabel
-     _strokeLabel,
-     _innerLabel,
+     _strokeText,
+     _innerText,
      _mapType,
      _useDarkText
      */
-    
-    /** 单独设置att的text会崩溃; 需要设置att里面的两个属性的text都为nil时, 才会消失并且也不会有点击事件了*/
-    /** 设置两个属性的alpha属性为0时, 也可以隐藏字体, 但是点击事件还在*/
-    /** 设置下面两个属性的各种颜色时, 个人测试innerLabel属性的优先级可能高一些*/
-    /** 当切换 地图类型 时, "法律信息"label就又出来了, 使用removeFromSuperview解决*/
-    UILabel *inner = [att valueForKey:@"innerLabel"];
-    //    [inner setTextColor:[UIColor redColor]];
-    //    inner.backgroundColor = [UIColor greenColor];
-    //    inner.alpha = 0;
-    //    [inner setText:nil];
-    [inner removeFromSuperview];
-    
-    UILabel *stro = [att valueForKey:@"strokeLabel"];
-    //    stro.textColor = [UIColor redColor];
-    //    stro.backgroundColor = [UIColor blueColor];
-    //    stro.alpha = 0;
-    //    [stro setText:nil];
-    [stro removeFromSuperview];
     
     /** 删除右下角" 高德地图 "*/
     /** 将视图的透明度改成0 或者 移除视图都可以*/
